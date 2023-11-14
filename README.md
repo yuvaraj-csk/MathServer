@@ -109,6 +109,42 @@ Publish the website in the given URL.
 
 </html>
 ```
+```
+Views.py
+
+from django.shortcuts import render
+
+def Squareprism(request):
+    context={}
+    context['area'] = "0"
+    context['l'] = "0"
+    context['b'] = "0"
+    if request.method == 'POST':
+        print("POST method is used")
+        l = request.POST.get('length','0')
+        b = request.POST.get('breadth','0')
+        print('request=',request)
+        print('Length=',l)
+        print('Breadth=',b)
+        area = 2*(int(l)**2) + 4*int(l)*int(b)
+        context['area'] = area
+        context['l'] = l
+        context['b'] = b
+        print('Area=',area)
+    return render(request,'mathapp/math.html',context)
+```
+```
+Url.py
+from django.contrib import admin
+from django.urls import path
+from mathapp import views
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('areaofrectangle/',views.Squareprism,name="areaofrectangle"),
+    path('',views.Squareprism,name="areaofrectangleroot")
+]
+```
+
 
 
 ## OUTPUT:
